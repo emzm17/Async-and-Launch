@@ -17,17 +17,11 @@ class MainActivity : AppCompatActivity() {
 
     }
    private suspend fun printfollower(){
-        var fbfollower=0
-        var instafollower=0
-        val job=CoroutineScope(Dispatchers.IO).launch {
-          fbfollower=getfollower()
-         }
-        val job1=CoroutineScope(Dispatchers.IO).launch {
-           instafollower=Instagetfollower()
-        }
-        job.join()
-        job1.join()
-        Log.d(TAG,"FB-${fbfollower} ,Insta-${Instagetfollower()}")
+       CoroutineScope(Dispatchers.IO).launch {
+            var fb=async { getfollower() }
+            var insta=async { Instagetfollower() }
+            Log.d(TAG,"FB-${fb.await()},Insta-${insta.await()}")
+       }
    }
 
 
